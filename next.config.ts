@@ -10,6 +10,15 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  // Allow product images from the Noroff API
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "static.noroff.dev",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
