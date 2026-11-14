@@ -15,9 +15,12 @@ export async function getProducts(): Promise<Product[]> {
   return json.data;
 }
 
-// Fetch a single product by id
-export async function getProduct(id: string): Promise<Product> {
+// Fetch a single product by id, or null if it does not exist
+export async function getProduct(id: string): Promise<Product | null> {
   const res = await fetch(`${API_BASE_URL}/${id}`);
+
+  // Invalid or unknown id: return null so the page can show a 404
+  if (res.status === 400 || res.status === 404) return null;
 
   if (!res.ok) {
     throw new Error(`Failed to fetch product: ${res.status}`);
