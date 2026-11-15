@@ -7,8 +7,6 @@ export default async function Home() {
 
   return (
     <main className="mx-auto max-w-6xl p-6">
-      <h1 className="mb-6 font-heading text-3xl font-bold">OMNI</h1>
-
       {/* Handle an empty product list */}
       {products.length === 0 ? (
         <p>No products found.</p>
