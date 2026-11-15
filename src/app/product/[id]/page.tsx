@@ -24,62 +24,96 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const onSale = hasDiscount(product);
 
   return (
-    <main>
-      <Link href="/">← Back to shop</Link>
+    <main className="mx-auto max-w-6xl p-6">
+      <Link href="/" className="text-sm text-muted hover:underline">
+        ← Back to shop
+      </Link>
 
-      {/* Discount only shown when the product is on sale */}
-      {onSale && <span>-{getDiscountPercent(product)}%</span>}
+      {/* Image and info side by side on large screens, stacked on small */}
+      <div className="mt-6 grid gap-8 md:grid-cols-2">
+        <div className="relative aspect-square max-w-sm w-full overflow-hidden rounded-2xl bg-surface">
+          {/* Discount only shown when the product is on sale */}
+          {onSale && (
+            <span className="absolute left-4 top-4 z-10 rounded-full bg-primary px-3 py-1 text-sm font-semibold text-white shadow">
+              -{getDiscountPercent(product)}%
+            </span>
+          )}
 
-      {/* Product image, or a fallback if the product has no image */}
-      {product.image?.url ? (
-        <Image
-          src={product.image.url}
-          alt={product.image.alt || product.title}
-          width={400}
-          height={400}
-        />
-      ) : (
-        <p>No image</p>
-      )}
+          {/* Product image, or a fallback if the product has no image */}
+          {product.image?.url ? (
+            <Image
+              src={product.image.url}
+              alt={product.image.alt || product.title}
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center text-muted">
+              No image
+            </div>
+          )}
+        </div>
 
-      <h1>{product.title}</h1>
-      <p>Rating: {product.rating}/5</p>
+        {/* Info card */}
+        <div className="rounded-2xl bg-card p-6">
+          <h1 className="font-heading text-3xl font-bold">{product.title}</h1>
+          <p className="mt-2 text-muted">Rating: {product.rating}/5</p>
 
-      {/* Current price, with the original price crossed out if discounted */}
-      <p>
-        {formatPrice(product.discountedPrice)}
-        {onSale && <del>{formatPrice(product.price)}</del>}
-      </p>
+          {/* Current price, with the original price crossed out if discounted */}
+          <div className="mt-4 flex items-baseline gap-3">
+            <span className="text-3xl font-bold">
+              {formatPrice(product.discountedPrice)}
+            </span>
+            {onSale && (
+              <span className="text-lg text-muted line-through">
+                {formatPrice(product.price)}
+              </span>
+            )}
+          </div>
 
-      <p>{product.description}</p>
+          <p className="mt-6 leading-relaxed">{product.description}</p>
 
-      {/* Tags, only shown if the product has any */}
-      {product.tags?.length > 0 && (
-        <ul>
-          {product.tags.map((tag) => (
-            <li key={tag}>{tag}</li>
-          ))}
-        </ul>
-      )}
+          {/* Tags, only shown if the product has any */}
+          {product.tags?.length > 0 && (
+            <ul className="mt-6 flex flex-wrap gap-2">
+              {product.tags.map((tag) => (
+                <li
+                  key={tag}
+                  className="rounded-full border border-primary/30 px-3 py-1 text-sm"
+                >
+                  {tag}
+                </li>
+              ))}
+            </ul>
+          )}
 
-      {/* Placeholder: Add to cart*/}
-      <button type="button">Add to cart</button>
+          {/* Placeholder: Add to cart*/}
+          <button
+            type="button"
+            className="mt-8 w-full cursor-pointer rounded-lg bg-primary px-6 py-3 font-semibold text-white transition hover:opacity-90"
+          >
+            Add to cart
+          </button>
+        </div>
+      </div>
 
       {/* Reviews, with a message if there are none */}
-      <section>
-        <h2>Reviews</h2>
+      <section className="mt-12">
+        <h2 className="font-heading text-2xl font-bold">Reviews</h2>
         {product.reviews?.length > 0 ? (
-          <ul>
+          <ul className="mt-4 divide-y divide-primary/15 rounded-2xl bg-card px-6">
             {product.reviews.map((review) => (
-              <li key={review.id}>
-                <p>{review.username}</p>
-                <p>Rating: {review.rating}/5</p>
-                <p>{review.description}</p>
+              <li key={review.id} className="py-5">
+                <p className="font-semibold">{review.username}</p>
+                <p className="text-sm text-muted">Rating: {review.rating}/5</p>
+                <p className="mt-2">{review.description}</p>
               </li>
             ))}
           </ul>
         ) : (
-          <p>No reviews yet.</p>
+          <p className="mt-4 text-muted">No reviews yet.</p>
         )}
       </section>
     </main>
