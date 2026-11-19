@@ -30,8 +30,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
       </Link>
 
       {/* Image and info side by side on large screens, stacked on small */}
-      <div className="mt-6 grid gap-8 md:grid-cols-2">
-        <div className="relative aspect-square max-w-sm w-full overflow-hidden rounded-2xl bg-surface">
+      <div className="mt-6 grid gap-10 md:grid-cols-[auto_1fr]">
+        <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-surface md:w-96">
           {/* Discount only shown when the product is on sale */}
           {onSale && (
             <span className="absolute left-4 top-4 z-10 rounded-full bg-primary px-3 py-1 text-sm font-semibold text-white shadow">
@@ -46,7 +46,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               alt={product.image.alt || product.title}
               fill
               priority
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 768px) 100vw, 384px"
               className="object-cover"
             />
           ) : (
@@ -57,7 +57,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </div>
 
         {/* Info card */}
-        <div className="rounded-2xl bg-card p-6">
+        <div className="py-6 md:pl-0">
           <h1 className="font-heading text-3xl font-bold">{product.title}</h1>
           <p className="mt-2 text-muted">Rating: {product.rating}/5</p>
 
@@ -92,7 +92,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           {/* Placeholder: Add to cart*/}
           <button
             type="button"
-            className="mt-8 w-full cursor-pointer rounded-lg bg-primary px-6 py-3 font-semibold text-white transition hover:opacity-90"
+            className="mt-8 cursor-pointer rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
           >
             Add to cart
           </button>
