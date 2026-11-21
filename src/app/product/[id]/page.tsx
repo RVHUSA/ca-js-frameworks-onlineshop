@@ -7,6 +7,7 @@ import {
   getDiscountPercent,
   hasDiscount,
 } from "@/features/products/utils";
+import { AddToCartButton } from "@/features/cart/components/AddToCartButton";
 
 interface ProductPageProps {
   params: Promise<{ id: string }>;
@@ -89,13 +90,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </ul>
           )}
 
-          {/* Placeholder: Add to cart*/}
-          <button
-            type="button"
-            className="mt-8 cursor-pointer rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
-          >
-            Add to cart
-          </button>
+          {/* Add to cart*/}
+          <AddToCartButton product={product} />
         </div>
       </div>
 

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu, ShoppingCart, X } from "lucide-react";
+import { useCart } from "@/features/cart/CartContext";
 
 // Navigation links, used in both the desktop and mobile menu
 const NAV_LINKS = [
@@ -15,6 +16,8 @@ const NAV_LINKS = [
 export function Header() {
   // Mobile menu = open
   const [open, setOpen] = useState(false);
+
+  const { totalItems } = useCart();
 
   return (
     <header className="sticky top-0 z-50 bg-[#f5f1e8] shadow-sm">
@@ -45,9 +48,18 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-4 md:justify-self-end">
-          {/* Cart icon, will add count later */}
-          <Link href="/cart" aria-label="Cart" className="hover:opacity-70">
+          {/* Cart icon with item count */}
+          <Link
+            href="/cart"
+            aria-label={`Cart, ${totalItems} items`}
+            className="relative hover:opacity-70"
+          >
             <ShoppingCart size={24} aria-hidden="true" />
+            {totalItems > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs font-semibold text-white">
+                {totalItems}
+              </span>
+            )}
           </Link>
 
           {/* Hamburger button, only shown on small screens */}
