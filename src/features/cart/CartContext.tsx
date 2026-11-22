@@ -96,6 +96,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     <CartContext.Provider
       value={{
         items,
+        isLoaded: loaded,
         totalItems,
         totalPrice,
         addItem,

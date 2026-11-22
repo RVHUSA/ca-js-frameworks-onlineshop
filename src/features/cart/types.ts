@@ -13,6 +13,7 @@ export interface CartItem {
 // Describes what useCart() returns: cart items, totals and functions to update them
 export interface CartContextValue {
   items: CartItem[];
+  isLoaded: boolean;
   totalItems: number;
   totalPrice: number;
   addItem: (product: Product) => void;
