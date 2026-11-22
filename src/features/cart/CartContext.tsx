@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
   ReactNode,
+  useCallback,
 } from "react";
 import { Product } from "@/features/products/types";
 import { CartContextValue, CartItem } from "./types";
@@ -81,9 +82,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   }
 
-  function clearCart() {
+  // Empty the cart. useCallback keeps the function stable, so the success page can safely use it in useEffect
+  const clearCart = useCallback(() => {
     setItems([]);
-  }
+  }, []);
 
   // Calculated from the items, so they are always up to date
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);

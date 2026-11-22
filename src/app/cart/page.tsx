@@ -132,7 +132,7 @@ export default function CartPage() {
 
           {/* Goes to the success page, which clears the cart */}
           <Link
-            href="/checkout/success"
+            href="/cart/checkout"
             className="mt-6 block rounded-lg bg-primary px-4 py-3 text-center font-semibold text-white transition hover:opacity-90"
           >
             Checkout
