@@ -1,7 +1,7 @@
 import { getProducts } from "@/features/products/api";
-import { ProductCard } from "@/features/products/components/ProductCard";
+import { ProductBrowser } from "@/features/products/components/ProductBrowser";
 
-// Fetches products and shows them as cards
+// Fetches products and passes them to the search and grid
 export default async function Home() {
   const products = await getProducts();
 
@@ -11,13 +11,7 @@ export default async function Home() {
       {products.length === 0 ? (
         <p>No products found.</p>
       ) : (
-        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {products.map((product) => (
-            <li key={product.id}>
-              <ProductCard product={product} />
-            </li>
-          ))}
-        </ul>
+        <ProductBrowser products={products} />
       )}
     </main>
   );

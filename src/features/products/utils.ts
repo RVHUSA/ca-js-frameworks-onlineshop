@@ -17,3 +17,14 @@ export function getDiscountPercent(product: Product): number {
 export function formatPrice(amount: number): string {
   return amount.toFixed(2);
 }
+
+// Filter products by title or tag
+export function searchProducts(products: Product[], query: string): Product[] {
+  const text = query.trim().toLowerCase();
+
+  return products.filter(
+    (product) =>
+      product.title.toLowerCase().includes(text) ||
+      product.tags?.some((tag) => tag.toLowerCase().includes(text))
+  );
+}
