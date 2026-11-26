@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Product } from "../types";
-import { searchProducts } from "../utils";
+import { SORT_OPTIONS, SortOption, sortProducts } from "../utils";
 import { ProductCard } from "./ProductCard";
 import { SearchBar } from "./SearchBar";
 
@@ -10,29 +10,39 @@ interface ProductBrowserProps {
   products: Product[];
 }
 
-// Shows the search field and the products that match it
+// Shows the search field, the sort menu and the product grid
 export function ProductBrowser({ products }: ProductBrowserProps) {
-  const [query, setQuery] = useState("");
+  const [sort, setSort] = useState<SortOption>("relevance");
 
-  // Products that match the search, updated whenever the text changes
-  const visibleProducts = searchProducts(products, query);
+  // Sort the products that are already fetched
+  const sortedProducts = sortProducts(products, sort);
 
   return (
     <div>
-      <SearchBar value={query} onChange={setQuery} />
+      <SearchBar products={products} />
 
-      {/* Show a message if nothing matches, otherwise the grid */}
-      {visibleProducts.length === 0 ? (
-        <p>No products found.</p>
-      ) : (
-        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {visibleProducts.map((product) => (
-            <li key={product.id}>
-              <ProductCard product={product} />
-            </li>
+      <div>
+        <label htmlFor="sort">Sort by</label>
+        <select
+          id="sort"
+          value={sort}
+          onChange={(event) => setSort(event.target.value as SortOption)}
+        >
+          {SORT_OPTIONS.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
           ))}
-        </ul>
-      )}
+        </select>
+      </div>
+
+      <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {sortedProducts.map((product) => (
+          <li key={product.id}>
+            <ProductCard product={product} />
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
