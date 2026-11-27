@@ -4,7 +4,7 @@ const API_BASE_URL = "https://v2.api.noroff.dev/online-shop";
 
 // Fetch all products
 export async function getProducts(): Promise<Product[]> {
-  const res = await fetch(API_BASE_URL);
+  const res = await fetch(API_BASE_URL, { next: { revalidate: 3600 } });
 
   // Throw if the API responds with an error status
   if (!res.ok) {
@@ -17,7 +17,9 @@ export async function getProducts(): Promise<Product[]> {
 
 // Fetch a single product by id, or null if it does not exist
 export async function getProduct(id: string): Promise<Product | null> {
-  const res = await fetch(`${API_BASE_URL}/${id}`);
+  const res = await fetch(`${API_BASE_URL}/${id}`, {
+    next: { revalidate: 3600 },
+  });
 
   // Invalid or unknown id: return null so the page can show a 404
   if (res.status === 400 || res.status === 404) return null;
