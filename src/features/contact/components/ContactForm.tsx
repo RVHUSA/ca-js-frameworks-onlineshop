@@ -47,16 +47,6 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-5">
-      {/* Confirmation after a valid submit */}
-      {submitted && (
-        <p
-          role="status"
-          className="rounded-xl bg-surface px-4 py-3 text-sm font-medium"
-        >
-          Thank you! Your message has been sent.
-        </p>
-      )}
-
       <div>
         <label htmlFor="fullName" className="text-sm font-medium">
           Full name
@@ -143,10 +133,20 @@ export function ContactForm() {
 
       <button
         type="submit"
-        className="w-full cursor-pointer rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90 sm:w-auto"
+        className="w-full cursor-pointer rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90 max-w-auto"
       >
         Submit
       </button>
+
+      {/* Confirmation after a valid submit */}
+      {submitted && (
+        <p
+          role="status"
+          className="rounded-xl bg-surface px-4 py-3 sm:text-center font-medium"
+        >
+          Thank you! Your message has been sent.
+        </p>
+      )}
     </form>
   );
 }
