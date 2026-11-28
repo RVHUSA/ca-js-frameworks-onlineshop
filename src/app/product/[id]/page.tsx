@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProduct } from "@/features/products/api";
+import { getProduct, getProducts } from "@/features/products/api";
 import {
   formatPrice,
   getDiscountPercent,
@@ -11,6 +11,12 @@ import { AddToCartButton } from "@/features/cart/components/AddToCartButton";
 
 interface ProductPageProps {
   params: Promise<{ id: string }>;
+}
+
+// Build all product pages ahead of time
+export async function generateStaticParams() {
+  const products = await getProducts();
+  return products.map((product) => ({ id: product.id }));
 }
 
 // Product details page, fetched by id
