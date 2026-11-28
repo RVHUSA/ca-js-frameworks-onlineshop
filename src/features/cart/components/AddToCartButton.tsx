@@ -1,23 +1,21 @@
 "use client";
 
-import { useState } from "react";
 import { Product } from "@/features/products/types";
+import { useToast } from "@/features/toast/ToastContext";
 import { useCart } from "../CartContext";
 
 interface AddToCartButtonProps {
   product: Product;
 }
 
-// Adds a product to the cart and shows a short confirmation
+// Adds a product to the cart and shows a toast
 export function AddToCartButton({ product }: AddToCartButtonProps) {
   const { addItem } = useCart();
-  const [added, setAdded] = useState(false);
+  const { showToast } = useToast();
 
   function handleClick() {
     addItem(product);
-    setAdded(true);
-    // Reset the confirmation after a moment
-    setTimeout(() => setAdded(false), 1500);
+    showToast(`${product.title} added to cart`);
   }
 
   return (
@@ -26,7 +24,7 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
       onClick={handleClick}
       className="mt-8 cursor-pointer rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
     >
-      {added ? "Added!" : "Add to cart"}
+      Add to cart
     </button>
   );
 }

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/features/cart/CartContext";
 import { formatPrice } from "@/features/products/utils";
+import { useToast } from "@/features/toast/ToastContext";
 
 // Cart page: lists the items, lets the user change quantities and shows the total
 export default function CartPage() {
@@ -15,6 +16,14 @@ export default function CartPage() {
     removeItem,
     updateQuantity,
   } = useCart();
+
+  const { showToast } = useToast();
+
+  // Tell if user removes a product from the cart
+  function handleRemove(id: string, title: string) {
+    removeItem(id);
+    showToast(`${title} removed from cart`);
+  }
 
   // Wait until the saved cart is loaded
   if (!isLoaded) {
@@ -79,7 +88,11 @@ export default function CartPage() {
                   <div className="inline-flex items-center rounded-full bg-surface">
                     <button
                       type="button"
-                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                      onClick={() =>
+                        item.quantity === 1
+                          ? handleRemove(item.id, item.title)
+                          : updateQuantity(item.id, item.quantity - 1)
+                      }
                       aria-label={`Decrease quantity of ${item.title}`}
                       className="h-8 w-8 cursor-pointer rounded-full hover:bg-background"
                     >
@@ -100,7 +113,7 @@ export default function CartPage() {
 
                   <button
                     type="button"
-                    onClick={() => removeItem(item.id)}
+                    onClick={() => handleRemove(item.id, item.title)}
                     className="cursor-pointer text-sm text-muted underline hover:text-primary"
                   >
                     Remove

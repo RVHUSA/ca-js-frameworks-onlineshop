@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CartProvider } from "@/features/cart/CartContext";
+import { ToastProvider } from "@/features/toast/ToastContext";
 
 // Manrope for headings
 const manrope = Manrope({
@@ -30,9 +31,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-screen flex-col">
         <CartProvider>
-          <Header />
-          <div className="flex-1">{children}</div>
-          <Footer />
+          <ToastProvider>
+            <Header />
+            <div className="flex-1">{children}</div>
+            <Footer />
+          </ToastProvider>
         </CartProvider>
       </body>
     </html>
